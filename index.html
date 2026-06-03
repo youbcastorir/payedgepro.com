@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PayEdgePro — Financial Management for Freelancers & Small Business</title>
+  <meta name="description" content="PayEdgePro is a modern financial management platform for freelancers, small businesses, and entrepreneurs. Track expenses, create invoices, manage debts, and calculate profit." />
+  <meta name="keywords" content="financial management, invoicing, expense tracking, freelancer finance, small business accounting, profit calculator" />
+  <meta name="author" content="PayEdgePro" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://payedgepro.com/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://payedgepro.com/" />
+  <meta property="og:title" content="PayEdgePro — Financial Management for Freelancers & Small Business" />
+  <meta property="og:description" content="Track expenses, create invoices, manage debts, and calculate profit — all in one modern platform." />
+  <meta property="og:image" content="https://payedgepro.com/og-image.png" />
+  <meta property="og:site_name" content="PayEdgePro" />
+
+  <!-- Twitter/X Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@payedgepro" />
+  <meta name="twitter:title" content="PayEdgePro — Financial Management Platform" />
+  <meta name="twitter:description" content="Track expenses, create invoices, manage debts, and calculate profit." />
+  <meta name="twitter:image" content="https://payedgepro.com/og-image.png" />
+
+  <!-- Schema.org SoftwareApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "PayEdgePro",
+    "url": "https://payedgepro.com",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Web",
+    "offers": [
+      { "@type": "Offer", "name": "Free Plan", "price": "0", "priceCurrency": "USD" },
+      { "@type": "Offer", "name": "Professional Plan", "price": "12", "priceCurrency": "USD" },
+      { "@type": "Offer", "name": "Business Plan", "price": "29", "priceCurrency": "USD" },
+      { "@type": "Offer", "name": "Enterprise Plan", "price": "79", "priceCurrency": "USD" }
+    ],
+    "description": "Modern financial management for freelancers, small businesses, and entrepreneurs.",
+    "email": "salatrir@gmail.com"
+  }
+  </script>
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#0d1117" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <!-- jsPDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ===== SIDEBAR ===== -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="logo">
+      <span class="logo-icon">⬡</span>
+      <span class="logo-text">PayEdge<span class="logo-accent">Pro</span></span>
+    </div>
+    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Main</div>
+    <a href="#" class="nav-item active" data-page="dashboard">
+      <span class="nav-icon">◈</span> Dashboard
+    </a>
+    <a href="#" class="nav-item" data-page="expenses">
+      <span class="nav-icon">◉</span> Expenses
+    </a>
+    <a href="#" class="nav-item" data-page="invoices">
+      <span class="nav-icon">◎</span> Invoices
+    </a>
+    <a href="#" class="nav-item" data-page="debts">
+      <span class="nav-icon">◍</span> Debt Tracker
+    </a>
+    <a href="#" class="nav-item" data-page="profit">
+      <span class="nav-icon">◐</span> Profit Calculator
+    </a>
+
+    <div class="nav-section-label">Management</div>
+    <a href="#" class="nav-item" data-page="clients">
+      <span class="nav-icon">◑</span> Clients
+    </a>
+    <a href="#" class="nav-item" data-page="reports">
+      <span class="nav-icon">◒</span> Reports
+    </a>
+
+    <div class="nav-section-label">Account</div>
+    <a href="#" class="nav-item" data-page="pricing">
+      <span class="nav-icon">◓</span> Pricing
+    </a>
+    <a href="#" class="nav-item" data-page="support">
+      <span class="nav-icon">◔</span> Support
+    </a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <button class="theme-toggle" id="themeToggle" title="Toggle theme">
+      <span class="theme-icon">◑</span>
+      <span class="theme-label">Toggle Theme</span>
+    </button>
+    <div class="sidebar-plan-badge">FREE PLAN</div>
+  </div>
+</aside>
+
+<!-- ===== MAIN CONTENT ===== -->
+<main class="main-content" id="mainContent">
+
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+      <div class="page-title-wrap">
+        <h1 class="page-title" id="pageTitle">Dashboard</h1>
+        <span class="page-date" id="pageDate"></span>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="search-wrap">
+        <input type="text" class="search-input" id="globalSearch" placeholder="Search anything…" />
+        <span class="search-icon">⌕</span>
+      </div>
+      <button class="btn btn-primary" id="quickAddBtn">+ Quick Add</button>
+      <div class="avatar">JD</div>
+    </div>
+  </header>
+
+  <!-- ===== PAGES ===== -->
+  <div class="pages-container">
+
+    <!-- DASHBOARD PAGE -->
+    <section class="page active" id="page-dashboard">
+      <div class="stats-grid">
+        <div class="stat-card stat-revenue">
+          <div class="stat-label">Total Revenue</div>
+          <div class="stat-value" id="statRevenue">$0.00</div>
+          <div class="stat-change positive" id="statRevenueChange">+0%</div>
+        </div>
+        <div class="stat-card stat-expenses">
+          <div class="stat-label">Total Expenses</div>
+          <div class="stat-value" id="statExpenses">$0.00</div>
+          <div class="stat-change" id="statExpensesChange">+0%</div>
+        </div>
+        <div class="stat-card stat-profit">
+          <div class="stat-label">Net Profit</div>
+          <div class="stat-value" id="statProfit">$0.00</div>
+          <div class="stat-change" id="statProfitChange">+0%</div>
+        </div>
+        <div class="stat-card stat-invoices">
+          <div class="stat-label">Pending Invoices</div>
+          <div class="stat-value" id="statPendingInv">0</div>
+          <div class="stat-change" id="statPendingChange">invoices</div>
+        </div>
+      </div>
+
+      <div class="dashboard-grid">
+        <div class="card chart-card">
+          <div class="card-header">
+            <h3>Income vs Expenses</h3>
+            <div class="chart-period-btns">
+              <button class="period-btn active" data-period="6m">6M</button>
+              <button class="period-btn" data-period="1y">1Y</button>
+            </div>
+          </div>
+          <canvas id="incomeExpenseChart" height="260"></canvas>
+        </div>
+        <div class="card">
+          <div class="card-header"><h3>Expense Breakdown</h3></div>
+          <canvas id="expensePieChart" height="260"></canvas>
+        </div>
+      </div>
+
+      <div class="dashboard-grid-2">
+        <div class="card">
+          <div class="card-header">
+            <h3>Recent Activity</h3>
+            <a href="#" class="card-link" data-page="expenses">View all →</a>
+          </div>
+          <ul class="activity-list" id="recentActivity">
+            <li class="activity-empty">No activity yet. Start by adding an expense or invoice.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <h3>Upcoming Due Dates</h3>
+            <a href="#" class="card-link" data-page="debts">View all →</a>
+          </div>
+          <ul class="due-list" id="upcomingDues">
+            <li class="activity-empty">No upcoming dues.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPENSES PAGE -->
+    <section class="page" id="page-expenses">
+      <div class="page-toolbar">
+        <div class="toolbar-left">
+          <input type="text" class="filter-input" id="expenseSearch" placeholder="Search expenses…" />
+          <select class="filter-select" id="expenseCatFilter">
+            <option value="">All Categories</option>
+            <option>Software</option>
+            <option>Marketing</option>
+            <option>Office</option>
+            <option>Travel</option>
+            <option>Utilities</option>
+            <option>Salaries</option>
+            <option>Other</option>
+          </select>
+          <input type="month" class="filter-input" id="expenseMonthFilter" />
+        </div>
+        <button class="btn btn-primary" id="addExpenseBtn">+ Add Expense</button>
+      </div>
+
+      <div class="monthly-summary-bar" id="expenseMonthlySummary"></div>
+
+      <div class="card table-card">
+        <table class="data-table" id="expenseTable">
+          <thead>
+            <tr>
+              <th>Date</th><th>Description</th><th>Category</th><th>Amount</th><th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="expenseTableBody">
+            <tr><td colspan="5" class="empty-row">No expenses yet. Click "+ Add Expense" to get started.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- INVOICES PAGE -->
+    <section class="page" id="page-invoices">
+      <div class="page-toolbar">
+        <div class="toolbar-left">
+          <input type="text" class="filter-input" id="invoiceSearch" placeholder="Search invoices…" />
+          <select class="filter-select" id="invoiceStatusFilter">
+            <option value="">All Status</option>
+            <option>Draft</option>
+            <option>Sent</option>
+            <option>Paid</option>
+            <option>Overdue</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" id="addInvoiceBtn">+ New Invoice</button>
+      </div>
+
+      <div class="card table-card">
+        <table class="data-table" id="invoiceTable">
+          <thead>
+            <tr>
+              <th>#</th><th>Client</th><th>Date</th><th>Due Date</th><th>Amount</th><th>Status</th><th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="invoiceTableBody">
+            <tr><td colspan="7" class="empty-row">No invoices yet. Click "+ New Invoice" to get started.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- DEBTS PAGE -->
+    <section class="page" id="page-debts">
+      <div class="page-toolbar">
+        <div class="debt-tabs">
+          <button class="debt-tab active" data-type="owed-to-me">Owed to Me</button>
+          <button class="debt-tab" data-type="i-owe">I Owe</button>
+        </div>
+        <button class="btn btn-primary" id="addDebtBtn">+ Add Entry</button>
+      </div>
+
+      <div class="debt-summary-bar">
+        <div class="debt-summary-item positive">
+          <span class="ds-label">Total Owed to Me</span>
+          <span class="ds-value" id="totalOwedToMe">$0.00</span>
+        </div>
+        <div class="debt-summary-item negative">
+          <span class="ds-label">Total I Owe</span>
+          <span class="ds-value" id="totalIOwe">$0.00</span>
+        </div>
+        <div class="debt-summary-item net">
+          <span class="ds-label">Net Position</span>
+          <span class="ds-value" id="debtNetPosition">$0.00</span>
+        </div>
+      </div>
+
+      <div class="card table-card">
+        <table class="data-table" id="debtTable">
+          <thead>
+            <tr>
+              <th>Person/Company</th><th>Amount</th><th>Due Date</th><th>Notes</th><th>Status</th><th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="debtTableBody">
+            <tr><td colspan="6" class="empty-row">No entries yet.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- PROFIT CALCULATOR PAGE -->
+    <section class="page" id="page-profit">
+      <div class="profit-grid">
+        <div class="card">
+          <div class="card-header"><h3>Add Revenue Entry</h3></div>
+          <form class="form-compact" id="revenueForm">
+            <div class="form-row">
+              <label>Description</label>
+              <input type="text" id="revDesc" placeholder="e.g. Freelance project" required />
+            </div>
+            <div class="form-row">
+              <label>Amount ($)</label>
+              <input type="number" id="revAmount" placeholder="0.00" step="0.01" required />
+            </div>
+            <div class="form-row">
+              <label>Date</label>
+              <input type="date" id="revDate" required />
+            </div>
+            <button type="submit" class="btn btn-primary w-full">Add Revenue</button>
+          </form>
+        </div>
+
+        <div class="profit-stats-col">
+          <div class="stat-card stat-revenue">
+            <div class="stat-label">Total Revenue</div>
+            <div class="stat-value" id="profRevenue">$0.00</div>
+          </div>
+          <div class="stat-card stat-expenses">
+            <div class="stat-label">Total Expenses</div>
+            <div class="stat-value" id="profExpenses">$0.00</div>
+          </div>
+          <div class="stat-card stat-profit">
+            <div class="stat-label">Net Profit</div>
+            <div class="stat-value" id="profNet">$0.00</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Profit Margin</div>
+            <div class="stat-value" id="profMargin">0%</div>
+          </div>
+        </div>
+
+        <div class="card chart-card">
+          <div class="card-header"><h3>Monthly Profit Trend</h3></div>
+          <canvas id="profitTrendChart" height="240"></canvas>
+        </div>
+      </div>
+
+      <div class="card table-card" style="margin-top:1.5rem">
+        <div class="card-header"><h3>Revenue Entries</h3></div>
+        <table class="data-table">
+          <thead>
+            <tr><th>Date</th><th>Description</th><th>Amount</th><th>Actions</th></tr>
+          </thead>
+          <tbody id="revenueTableBody">
+            <tr><td colspan="4" class="empty-row">No revenue entries yet.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card table-card" style="margin-top:1.5rem">
+        <div class="card-header"><h3>Annual Summary</h3></div>
+        <div id="annualSummaryTable"></div>
+      </div>
+    </section>
+
+    <!-- CLIENTS PAGE -->
+    <section class="page" id="page-clients">
+      <div class="page-toolbar">
+        <input type="text" class="filter-input" id="clientSearch" placeholder="Search clients…" />
+        <button class="btn btn-primary" id="addClientBtn">+ Add Client</button>
+      </div>
+      <div class="clients-grid" id="clientsGrid">
+        <div class="empty-card">No clients yet. Click "+ Add Client" to get started.</div>
+      </div>
+    </section>
+
+    <!-- REPORTS PAGE -->
+    <section class="page" id="page-reports">
+      <div class="reports-toolbar">
+        <select class="filter-select" id="reportMonth">
+          <option value="">Select Month</option>
+        </select>
+        <select class="filter-select" id="reportYear">
+          <option value="">Select Year</option>
+        </select>
+        <button class="btn btn-primary" id="genReportBtn">Generate Report</button>
+        <button class="btn btn-outline" id="exportPdfBtn">Export PDF</button>
+        <button class="btn btn-outline" id="exportCsvBtn">Export CSV</button>
+      </div>
+      <div id="reportContent" class="report-content">
+        <div class="report-placeholder">Select a month and year, then click "Generate Report".</div>
+      </div>
+    </section>
+
+    <!-- PRICING PAGE -->
+    <section class="page" id="page-pricing">
+      <div class="pricing-header">
+        <h2>Simple, Transparent Pricing</h2>
+        <p>Choose the plan that fits your business</p>
+        <div class="billing-toggle">
+          <span>Monthly</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="billingToggle" />
+            <span class="toggle-slider"></span>
+          </label>
+          <span>Annual <span class="save-badge">Save 20%</span></span>
+        </div>
+      </div>
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <div class="plan-name">Free</div>
+          <div class="plan-price" data-monthly="0" data-annual="0"><span class="price-num">$0</span>/mo</div>
+          <div class="plan-desc">Perfect for getting started</div>
+          <ul class="plan-features">
+            <li>✓ Up to 10 invoices/mo</li>
+            <li>✓ Basic expense tracking</li>
+            <li>✓ 2 clients</li>
+            <li>✓ Dashboard overview</li>
+            <li>✗ PDF exports</li>
+            <li>✗ Advanced reports</li>
+          </ul>
+          <button class="btn btn-outline w-full">Get Started Free</button>
+        </div>
+        <div class="pricing-card popular">
+          <div class="popular-badge">Most Popular</div>
+          <div class="plan-name">Professional</div>
+          <div class="plan-price" data-monthly="12" data-annual="10"><span class="price-num">$12</span>/mo</div>
+          <div class="plan-desc">For freelancers & solopreneurs</div>
+          <ul class="plan-features">
+            <li>✓ Unlimited invoices</li>
+            <li>✓ Full expense tracking</li>
+            <li>✓ 25 clients</li>
+            <li>✓ PDF exports</li>
+            <li>✓ Debt tracker</li>
+            <li>✓ Monthly reports</li>
+          </ul>
+          <button class="btn btn-primary w-full">Start Free Trial</button>
+        </div>
+        <div class="pricing-card">
+          <div class="plan-name">Business</div>
+          <div class="plan-price" data-monthly="29" data-annual="23"><span class="price-num">$29</span>/mo</div>
+          <div class="plan-desc">For small teams & businesses</div>
+          <ul class="plan-features">
+            <li>✓ Everything in Pro</li>
+            <li>✓ Unlimited clients</li>
+            <li>✓ Team members (5)</li>
+            <li>✓ Advanced analytics</li>
+            <li>✓ CSV exports</li>
+            <li>✓ Priority support</li>
+          </ul>
+          <button class="btn btn-outline w-full">Start Free Trial</button>
+        </div>
+        <div class="pricing-card">
+          <div class="plan-name">Enterprise</div>
+          <div class="plan-price" data-monthly="79" data-annual="63"><span class="price-num">$79</span>/mo</div>
+          <div class="plan-desc">For large organizations</div>
+          <ul class="plan-features">
+            <li>✓ Everything in Business</li>
+            <li>✓ Unlimited team members</li>
+            <li>✓ Custom integrations</li>
+            <li>✓ SLA guarantee</li>
+            <li>✓ Dedicated account manager</li>
+            <li>✓ White-label option</li>
+          </ul>
+          <button class="btn btn-outline w-full">Contact Sales</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SUPPORT PAGE -->
+    <section class="page" id="page-support">
+      <div class="support-grid">
+        <div class="card support-card">
+          <div class="support-icon">✉</div>
+          <h3>Email Support</h3>
+          <p>Get help from our team within 24 hours.</p>
+          <a href="mailto:salatrir@gmail.com" class="btn btn-primary">salatrir@gmail.com</a>
+        </div>
+        <div class="card support-card">
+          <div class="support-icon">📖</div>
+          <h3>Documentation</h3>
+          <p>Browse our comprehensive guides and tutorials.</p>
+          <button class="btn btn-outline">View Docs</button>
+        </div>
+        <div class="card support-card">
+          <div class="support-icon">💬</div>
+          <h3>Community</h3>
+          <p>Connect with other PayEdgePro users.</p>
+          <button class="btn btn-outline">Join Community</button>
+        </div>
+      </div>
+
+      <div class="card faq-card">
+        <div class="card-header"><h3>Frequently Asked Questions</h3></div>
+        <div class="faq-list">
+          <details class="faq-item">
+            <summary>Is my data secure?</summary>
+            <p>All data is stored locally in your browser using localStorage. Nothing is sent to external servers on the Free plan.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Can I export my data?</summary>
+            <p>Yes — you can export reports as PDF or CSV from the Reports section.</p>
+          </details>
+          <details class="faq-item">
+            <summary>How do I upgrade my plan?</summary>
+            <p>Visit the Pricing page and click the appropriate plan button to upgrade.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Can I use PayEdgePro on mobile?</summary>
+            <p>Yes — PayEdgePro is fully responsive and works on all screen sizes.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- /pages-container -->
+
+</main>
+
+<!-- ===== MODALS ===== -->
+
+<!-- Add Expense Modal -->
+<div class="modal-overlay" id="expenseModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="expenseModalTitle">Add Expense</h3>
+      <button class="modal-close" data-modal="expenseModal">✕</button>
+    </div>
+    <form id="expenseForm">
+      <input type="hidden" id="expenseEditId" />
+      <div class="form-row">
+        <label>Description</label>
+        <input type="text" id="expDesc" placeholder="What did you spend on?" required />
+      </div>
+      <div class="form-row">
+        <label>Amount ($)</label>
+        <input type="number" id="expAmount" placeholder="0.00" step="0.01" required />
+      </div>
+      <div class="form-row">
+        <label>Category</label>
+        <select id="expCategory" required>
+          <option value="">Select category</option>
+          <option>Software</option>
+          <option>Marketing</option>
+          <option>Office</option>
+          <option>Travel</option>
+          <option>Utilities</option>
+          <option>Salaries</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label>Date</label>
+        <input type="date" id="expDate" required />
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" data-modal="expenseModal">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save Expense</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Add Invoice Modal -->
+<div class="modal-overlay" id="invoiceModal">
+  <div class="modal modal-lg">
+    <div class="modal-header">
+      <h3 id="invoiceModalTitle">New Invoice</h3>
+      <button class="modal-close" data-modal="invoiceModal">✕</button>
+    </div>
+    <form id="invoiceForm">
+      <input type="hidden" id="invoiceEditId" />
+      <div class="form-grid-2">
+        <div class="form-row">
+          <label>Client Name</label>
+          <input type="text" id="invClient" placeholder="Client name" required />
+        </div>
+        <div class="form-row">
+          <label>Client Email</label>
+          <input type="email" id="invClientEmail" placeholder="client@email.com" />
+        </div>
+        <div class="form-row">
+          <label>Invoice Date</label>
+          <input type="date" id="invDate" required />
+        </div>
+        <div class="form-row">
+          <label>Due Date</label>
+          <input type="date" id="invDueDate" required />
+        </div>
+        <div class="form-row">
+          <label>Status</label>
+          <select id="invStatus">
+            <option>Draft</option>
+            <option>Sent</option>
+            <option>Paid</option>
+            <option>Overdue</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label>Currency</label>
+          <select id="invCurrency">
+            <option>USD</option><option>EUR</option><option>GBP</option><option>CAD</option>
+          </select>
+        </div>
+      </div>
+      <div class="invoice-items">
+        <div class="items-header">
+          <span>Description</span><span>Qty</span><span>Rate</span><span>Total</span><span></span>
+        </div>
+        <div id="invoiceItemsList"></div>
+        <button type="button" class="btn btn-outline btn-sm" id="addInvItemBtn">+ Add Line Item</button>
+      </div>
+      <div class="invoice-totals">
+        <div class="inv-total-row"><span>Subtotal</span><span id="invSubtotal">$0.00</span></div>
+        <div class="inv-total-row"><span>Tax (%)</span><input type="number" id="invTax" value="0" min="0" max="100" step="0.1" class="tax-input" /></div>
+        <div class="inv-total-row inv-grand-total"><span>Total</span><span id="invTotal">$0.00</span></div>
+      </div>
+      <div class="form-row">
+        <label>Notes</label>
+        <textarea id="invNotes" placeholder="Payment terms, thank you message, etc."></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" data-modal="invoiceModal">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save Invoice</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Add Debt Modal -->
+<div class="modal-overlay" id="debtModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="debtModalTitle">Add Debt Entry</h3>
+      <button class="modal-close" data-modal="debtModal">✕</button>
+    </div>
+    <form id="debtForm">
+      <input type="hidden" id="debtEditId" />
+      <input type="hidden" id="debtType" value="owed-to-me" />
+      <div class="form-row">
+        <label>Person / Company</label>
+        <input type="text" id="debtPerson" placeholder="Who owes / who you owe" required />
+      </div>
+      <div class="form-row">
+        <label>Amount ($)</label>
+        <input type="number" id="debtAmount" placeholder="0.00" step="0.01" required />
+      </div>
+      <div class="form-row">
+        <label>Due Date</label>
+        <input type="date" id="debtDue" required />
+      </div>
+      <div class="form-row">
+        <label>Notes</label>
+        <textarea id="debtNotes" placeholder="Additional details…"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" data-modal="debtModal">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save Entry</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Add Client Modal -->
+<div class="modal-overlay" id="clientModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="clientModalTitle">Add Client</h3>
+      <button class="modal-close" data-modal="clientModal">✕</button>
+    </div>
+    <form id="clientForm">
+      <input type="hidden" id="clientEditId" />
+      <div class="form-row">
+        <label>Name</label>
+        <input type="text" id="clientName" placeholder="Client or company name" required />
+      </div>
+      <div class="form-row">
+        <label>Email</label>
+        <input type="email" id="clientEmail" placeholder="email@company.com" />
+      </div>
+      <div class="form-row">
+        <label>Phone</label>
+        <input type="tel" id="clientPhone" placeholder="+1 (555) 000-0000" />
+      </div>
+      <div class="form-row">
+        <label>Company</label>
+        <input type="text" id="clientCompany" placeholder="Company name (optional)" />
+      </div>
+      <div class="form-row">
+        <label>Address</label>
+        <textarea id="clientAddress" placeholder="Billing address"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" data-modal="clientModal">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save Client</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Toast Notification -->
+<div class="toast" id="toast"></div>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="logo-icon">⬡</span> PayEdgePro
+    </div>
+    <div class="footer-links">
+      <a href="#" data-page="pricing">Pricing</a>
+      <a href="#" data-page="support">Support</a>
+      <a href="mailto:salatrir@gmail.com">salatrir@gmail.com</a>
+    </div>
+    <div class="footer-copy">© 2025 PayEdgePro. All rights reserved.</div>
+  </div>
+</footer>
+
+<!-- Scripts -->
+<script src="expenses.js"></script>
+<script src="invoices.js"></script>
+<script src="debts.js"></script>
+<script src="reports.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
