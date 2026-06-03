@@ -60,6 +60,7 @@ function navigateTo(page) {
 
   // Close mobile sidebar
   $('#sidebar').classList.remove('open');
+  document.body.classList.remove('sidebar-open');
 
   // Refresh page data
   if (page === 'dashboard') refreshDashboard();
@@ -93,7 +94,19 @@ $('#themeToggle').addEventListener('click', () => {
 
 // ── Mobile Sidebar ─────────────────────────────────────────
 $('#mobileMenuBtn').addEventListener('click', () => {
-  $('#sidebar').classList.toggle('open');
+  const sidebar = $('#sidebar');
+  const isOpen  = sidebar.classList.toggle('open');
+  document.body.classList.toggle('sidebar-open', isOpen);
+});
+
+// Close sidebar when clicking backdrop
+document.body.addEventListener('click', (e) => {
+  if (document.body.classList.contains('sidebar-open') &&
+      !e.target.closest('.sidebar') &&
+      !e.target.closest('#mobileMenuBtn')) {
+    $('#sidebar').classList.remove('open');
+    document.body.classList.remove('sidebar-open');
+  }
 });
 
 // ── Page Date ──────────────────────────────────────────────

@@ -71,7 +71,6 @@ body {
   background: var(--bg-base);
   color: var(--text-primary);
   line-height: 1.6;
-  display: flex;
   min-height: 100vh;
   overflow-x: hidden;
 }
@@ -213,8 +212,7 @@ ul { list-style: none; }
    ============================================================ */
 .main-content {
   margin-left: var(--sidebar-w);
-  flex: 1;
-  min-width: 0;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
@@ -275,6 +273,7 @@ ul { list-style: none; }
   flex: 1;
   padding: 1.5rem;
   overflow-y: auto;
+  min-height: 0;
 }
 
 .page { display: none; }
@@ -889,6 +888,7 @@ input:checked + .toggle-slider::before { transform: translateX(20px); }
   background: var(--bg-surface);
   border-top: 1px solid var(--border);
   padding: 1rem 1.5rem;
+  margin-top: auto;
 }
 .footer-inner {
   display: flex;
@@ -925,38 +925,92 @@ input:checked + .toggle-slider::before { transform: translateX(20px); }
 }
 
 @media (max-width: 768px) {
-  :root { --sidebar-w: 240px; }
+  /* Sidebar slides off-screen on mobile */
+  .sidebar {
+    transform: translateX(-100%);
+    z-index: 200;
+  }
+  .sidebar.open {
+    transform: translateX(0);
+    box-shadow: var(--shadow-lg);
+  }
 
-  .sidebar { transform: translateX(-100%); }
-  .sidebar.open { transform: translateX(0); box-shadow: var(--shadow-lg); }
+  /* Mobile menu button visible */
   .mobile-menu-btn { display: flex; }
 
-  .main-content { margin-left: 0; }
+  /* Main content takes full width */
+  .main-content { margin-left: 0 !important; }
 
+  /* Overlay when sidebar is open */
+  .sidebar-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 190;
+  }
+  .sidebar-backdrop.show { display: block; }
+
+  /* Stats grid */
   .stats-grid { grid-template-columns: 1fr 1fr; }
+
+  /* Dashboard grids */
+  .dashboard-grid   { grid-template-columns: 1fr; }
   .dashboard-grid-2 { grid-template-columns: 1fr; }
-  .debt-summary-bar { grid-template-columns: 1fr; }
-  .support-grid { grid-template-columns: 1fr; }
-  .pricing-grid { grid-template-columns: 1fr; }
-  .profit-grid { grid-template-columns: 1fr; }
-  .form-grid-2 { grid-template-columns: 1fr; }
 
-  .search-input { width: 150px; }
-  .search-input:focus { width: 170px; }
+  /* Other grids */
+  .debt-summary-bar { grid-template-columns: 1fr 1fr; }
+  .support-grid     { grid-template-columns: 1fr; }
+  .pricing-grid     { grid-template-columns: 1fr 1fr; }
+  .profit-grid      { grid-template-columns: 1fr; }
+  .form-grid-2      { grid-template-columns: 1fr; }
 
-  .page-toolbar { flex-direction: column; align-items: flex-start; }
-  .toolbar-left { width: 100%; }
-
+  /* Topbar search hidden */
   .topbar-right .search-wrap { display: none; }
 
+  /* Topbar compact */
+  .topbar { padding: 0 1rem; }
+  .topbar-right { gap: 0.5rem; }
+
+  /* Tables */
   .items-header { display: none; }
   .invoice-line-item { grid-template-columns: 1fr 60px 80px 80px 28px; }
+
+  /* Toolbar */
+  .page-toolbar { flex-direction: column; align-items: flex-start; }
+  .toolbar-left { width: 100%; }
+  .filter-input, .filter-select { width: 100%; }
+
+  /* Stat cards smaller font on mobile */
+  .stat-value { font-size: 1.4rem; }
+
+  /* Pages padding */
+  .pages-container { padding: 1rem; }
 }
 
 @media (max-width: 480px) {
-  .stats-grid { grid-template-columns: 1fr; }
-  .pages-container { padding: 1rem; }
-  .modal { max-width: 100%; }
-  .debt-tabs { flex-wrap: wrap; }
+  .stats-grid    { grid-template-columns: 1fr 1fr; }
+  .debt-summary-bar { grid-template-columns: 1fr; }
+  .pricing-grid  { grid-template-columns: 1fr; }
+  .modal         { max-width: 100%; border-radius: var(--radius); }
+  .debt-tabs     { flex-wrap: wrap; }
   .reports-toolbar { flex-direction: column; align-items: flex-start; }
+
+  /* Topbar: hide quick add label on very small screens */
+  #quickAddBtn { padding: 0.5rem 0.65rem; font-size: 0.8rem; }
+
+  /* Footer stacked */
+  .footer-inner  { flex-direction: column; text-align: center; }
+  .footer-links  { justify-content: center; flex-wrap: wrap; }
+}
+
+/* Overlay backdrop for mobile sidebar */
+@media (max-width: 768px) {
+  body.sidebar-open::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    z-index: 150;
+  }
 }
